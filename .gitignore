@@ -1,0 +1,47 @@
+
+# ============================================
+# RecallRadar AI - Git Ignore
+# ============================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# Maven build output
+target/
+
+# Java logs and temporary files
+*.log
+*.tmp
+*.class
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Local environment variables
+.env
+.env.*
+!.env.example
+
+# Confluent Cloud credentials
+client.properties
+**/client.properties
+ccloud-java-client.zip
+
+# Local secrets and credentials
+secrets/
+*.pem
+*.key
+*.p12
+*.jks
+
+# Local application configuration
+application-local.properties
+application-local.yml
+application-local.yaml
+
+# IntelliJ run configurations
+.run/
+```

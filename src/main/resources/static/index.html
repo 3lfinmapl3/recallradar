@@ -1,0 +1,710 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>RecallRadar AI</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #090e1b;
+            color: #f8fafc;
+            font-family: Inter, Segoe UI, Arial, sans-serif;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 235px;
+            background: #101827;
+            border-right: 1px solid #253248;
+            padding: 28px 20px;
+        }
+
+        .brand {
+            font-size: 24px;
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        .brand span {
+            color: #38bdf8;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .nav {
+            margin-top: 55px;
+        }
+
+        .nav-item {
+            padding: 14px;
+            margin-bottom: 8px;
+            border-radius: 10px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .nav-item.active {
+            background: #1e3a5f;
+            color: #7dd3fc;
+        }
+
+        .sidebar-footer {
+            position: absolute;
+            bottom: 28px;
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.8;
+        }
+
+        main {
+            margin-left: 235px;
+            padding: 35px;
+            max-width: 1700px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 29px;
+            margin: 0;
+        }
+
+        .header p {
+            color: #94a3b8;
+            margin: 9px 0 0;
+            font-size: 14px;
+        }
+
+        .live {
+            background: #052e25;
+            border: 1px solid #166534;
+            padding: 10px 17px;
+            border-radius: 30px;
+            color: #4ade80;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .live.offline {
+            background: #451a1a;
+            border-color: #991b1b;
+            color: #fca5a5;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .metric {
+            background: #111b2c;
+            border: 1px solid #263449;
+            border-radius: 16px;
+            padding: 23px;
+        }
+
+        .metric-label {
+            color: #94a3b8;
+            font-size: 13px;
+        }
+
+        .metric-value {
+            font-size: 38px;
+            font-weight: 800;
+            margin-top: 15px;
+        }
+
+        .blue {
+            color: #38bdf8;
+        }
+
+        .green {
+            color: #4ade80;
+        }
+
+        .orange {
+            color: #fb923c;
+        }
+
+        .red {
+            color: #f87171;
+        }
+
+        .section {
+            background: #111b2c;
+            border: 1px solid #263449;
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 24px;
+            overflow-x: auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .tag {
+            background: #17304a;
+            color: #7dd3fc;
+            padding: 7px 11px;
+            border-radius: 7px;
+            font-size: 11px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 680px;
+        }
+
+        th {
+            text-align: left;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 15px;
+            border-bottom: 1px solid #263449;
+        }
+
+        td {
+            padding: 17px 15px;
+            border-bottom: 1px solid #1e293b;
+            font-size: 13px;
+        }
+
+        .severity {
+            color: #f87171;
+            background: #451a1a;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .status {
+            color: #4ade80;
+            background: #052e25;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .empty {
+            padding: 25px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .footer {
+            color: #64748b;
+            font-size: 12px;
+            margin-top: 25px;
+            line-height: 1.7;
+        }
+
+        @media (max-width: 1100px) {
+
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                position: relative;
+                width: 100%;
+                padding: 18px;
+            }
+
+            .nav,
+            .sidebar-footer {
+                display: none;
+            }
+
+            main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .metrics {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="brand">
+        Recall<span>Radar</span> AI
+    </div>
+
+    <div class="subtitle">
+        CONSUMER SAFETY INTELLIGENCE
+    </div>
+
+    <nav class="nav">
+
+        <div class="nav-item active">
+            ◈ &nbsp; Live Overview
+        </div>
+
+        <div class="nav-item">
+            ◉ &nbsp; Recall Monitoring
+        </div>
+
+        <div class="nav-item">
+            ◇ &nbsp; Customer Alerts
+        </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+
+        POWERED BY
+
+        <br>
+
+        Confluent Cloud
+
+        <br>
+
+        Apache Kafka + Apache Flink
+
+        <br><br>
+
+        Hackathon Prototype
+
+    </div>
+
+</aside>
+
+
+<main>
+
+    <div class="header">
+
+        <div>
+
+            <h1>Consumer Safety Dashboard</h1>
+
+            <p>
+                Real-time product recall monitoring
+                and customer impact intelligence
+            </p>
+
+        </div>
+
+        <div class="live" id="connection">
+            ● CONNECTING
+        </div>
+
+    </div>
+
+
+    <div class="metrics">
+
+        <div class="metric">
+
+            <div class="metric-label">
+                Total Safety Alerts
+            </div>
+
+            <div class="metric-value blue"
+                 id="totalAlerts">0</div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-label">
+                Affected Customers
+            </div>
+
+            <div class="metric-value orange"
+                 id="affectedCustomers">0</div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-label">
+                Active Recalls
+            </div>
+
+            <div class="metric-value red"
+                 id="activeRecalls">0</div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div class="metric-label">
+                Alerts Generated
+            </div>
+
+            <div class="metric-value green"
+                 id="deliveredAlerts">0</div>
+
+        </div>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>Product Recall Impact</h2>
+
+            <span class="tag">
+                LIVE RECALL ANALYTICS
+            </span>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>Product</th>
+                <th>Batch</th>
+                <th>Severity</th>
+                <th>Affected Customers</th>
+                <th>Total Alerts</th>
+                <th>Status</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="recallTable">
+
+            <tr>
+                <td colspan="6" class="empty">
+                    Waiting for recall data...
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="section">
+
+        <div class="section-header">
+
+            <h2>Recent Customer Safety Alerts</h2>
+
+            <span class="tag">
+                KAFKA EVENT STREAM
+            </span>
+
+        </div>
+
+        <table>
+
+            <thead>
+
+            <tr>
+
+                <th>Customer</th>
+                <th>Product</th>
+                <th>Batch</th>
+                <th>Severity</th>
+                <th>Safety Instructions</th>
+
+            </tr>
+
+            </thead>
+
+            <tbody id="alertTable">
+
+            <tr>
+                <td colspan="5" class="empty">
+                    Waiting for customer alerts...
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    <div class="footer">
+
+        RecallRadar AI · Powered by Confluent Cloud
+
+        <br>
+
+        Demonstration using simulated retail
+        transactions and fictional product recalls.
+
+        <br>
+
+        Last updated: <span id="updated">--</span>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    const $ = id => document.getElementById(id);
+
+
+    function addCell(row, value) {
+
+        const cell = document.createElement("td");
+
+        cell.textContent = value ?? "";
+
+        row.appendChild(cell);
+
+        return cell;
+    }
+
+
+    function renderRecalls(recalls) {
+
+        const table = $("recallTable");
+
+        table.replaceChildren();
+
+        if (!recalls || recalls.length === 0) {
+
+            const row = table.insertRow();
+
+            const cell = addCell(
+                row,
+                "No recall alerts received yet."
+            );
+
+            cell.colSpan = 6;
+
+            return;
+        }
+
+        recalls.forEach(recall => {
+
+            const row = table.insertRow();
+
+            addCell(row, recall.productId);
+
+            addCell(row, recall.batchId);
+
+            const severityCell = addCell(
+                row,
+                recall.severity
+            );
+
+            severityCell.className = "red";
+
+            addCell(
+                row,
+                recall.affectedCustomers
+            );
+
+            addCell(
+                row,
+                recall.totalAlerts
+            );
+
+            const statusCell = addCell(
+                row,
+                "MONITORING"
+            );
+
+            statusCell.className = "green";
+
+        });
+    }
+
+
+    function renderAlerts(alerts) {
+
+        const table = $("alertTable");
+
+        table.replaceChildren();
+
+        if (!alerts || alerts.length === 0) {
+
+            const row = table.insertRow();
+
+            const cell = addCell(
+                row,
+                "No customer alerts received yet."
+            );
+
+            cell.colSpan = 5;
+
+            return;
+        }
+
+        alerts.forEach(alert => {
+
+            const row = table.insertRow();
+
+            addCell(
+                row,
+                alert.customerId
+            );
+
+            addCell(
+                row,
+                alert.productId
+            );
+
+            addCell(
+                row,
+                alert.batchId
+            );
+
+            const severityCell = addCell(
+                row,
+                alert.severity
+            );
+
+            severityCell.className = "red";
+
+            addCell(
+                row,
+                alert.instructions
+            );
+
+        });
+    }
+
+
+    async function refreshDashboard() {
+
+        try {
+
+            const response = await fetch(
+                "/api/dashboard",
+                { cache: "no-store" }
+            );
+
+            if (!response.ok) {
+                throw new Error(
+                    "API request failed"
+                );
+            }
+
+            const data = await response.json();
+
+            $("connection").textContent =
+                "● CONNECTED TO KAFKA";
+
+            $("connection").classList.remove(
+                "offline"
+            );
+
+            $("totalAlerts").textContent =
+                data.totalAlerts;
+
+            $("affectedCustomers").textContent =
+                data.affectedCustomers;
+
+            $("activeRecalls").textContent =
+                data.activeRecalls;
+
+            // These are generated alert events.
+            // No external notification provider is
+            // connected in this prototype.
+            $("deliveredAlerts").textContent =
+                data.totalAlerts;
+
+            renderRecalls(data.recalls);
+
+            renderAlerts(data.recentAlerts);
+
+            $("updated").textContent =
+                new Date(
+                    data.lastUpdated
+                ).toLocaleTimeString();
+
+        } catch (error) {
+
+            $("connection").textContent =
+                "● BACKEND UNAVAILABLE";
+
+            $("connection").classList.add(
+                "offline"
+            );
+
+            console.error(error);
+        }
+
+    }
+
+
+    refreshDashboard();
+
+    setInterval(
+        refreshDashboard,
+        2000
+    );
+
+</script>
+
+</body>
+
+</html>
