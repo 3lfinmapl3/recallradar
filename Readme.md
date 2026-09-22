@@ -1,5 +1,5 @@
 
-# RecallRadar AI
+# RecallRadar
 
 ### Real-Time Product Recall Intelligence Powered by Confluent Cloud
 
