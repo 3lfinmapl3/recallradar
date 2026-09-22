@@ -10,6 +10,8 @@ The application continuously processes retail purchase and product recall
 events, generates customer-specific safety alerts, and displays recall
 impact through a live web dashboard.
 
+![recallRadarDashboard.png](docs/images/recallRadarDashboard.png)
+
 This project was built for Confluent AI Developer Day.
 
 ---
@@ -32,6 +34,7 @@ purchases as recall information becomes available.
 ---
 
 ## How It Works
+![stream-lineage.png](docs/images/stream-lineage.png)
 
 1. Simulated retail purchase events are published to Confluent Cloud Kafka.
 
@@ -229,4 +232,8 @@ used in the prototype are simulated.
 
 It is not intended for production consumer safety decisions without
 verified recall data, appropriate controls, and further validation.
+
+### Live Demonstration
+
+[Watch RecallRadar in action](https://drive.google.com/file/d/1Qx3god6o4qW3Jyo1g9Rvu2MTkO-0xJFt/view?usp=sharing)
 ```
